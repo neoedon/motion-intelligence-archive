@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import archiveData from "./site-data.json";
 
 type Beat = {
   start: number;
@@ -362,19 +363,12 @@ function DetailOverlay({
 }
 
 export function MotionArchive() {
-  const [data, setData] = useState<ArchiveData | null>(null);
+  const data = archiveData as ArchiveData;
   const [filter, setFilter] = useState("ALL");
   const [activeOrder, setActiveOrder] = useState(1);
   const [detailRecord, setDetailRecord] = useState<CaseStudy | null>(null);
 
-  useEffect(() => {
-    fetch("/site-data-20260723-v2.json")
-      .then((response) => response.json())
-      .then((payload: ArchiveData) => setData(payload));
-  }, []);
-
   const visibleRecords = useMemo(() => {
-    if (!data) return [];
     return data.records.filter(
       (record) => filter === "ALL" || record.kind === filter,
     );
@@ -394,7 +388,7 @@ export function MotionArchive() {
     }
   }, [activeOrder, visibleRecords]);
 
-  if (!data || !activeRecord) {
+  if (!activeRecord) {
     return (
       <main className="loading">
         <span>MI</span>
