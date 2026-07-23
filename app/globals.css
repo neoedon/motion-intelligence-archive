@@ -1050,6 +1050,115 @@ img {
   line-height: 1.65;
 }
 
+.source-file {
+  display: grid;
+  grid-template-columns: 0.55fr 1.15fr 0.8fr;
+  gap: 42px;
+  padding: 54px clamp(28px, 5vw, 72px);
+  background:
+    linear-gradient(90deg, rgba(205, 255, 0, 0.035), transparent 38%),
+    #0d0c0b;
+}
+
+.source-file-heading h3 {
+  margin: 0 0 20px;
+}
+
+.source-file-heading > p:last-child {
+  max-width: 340px;
+  margin: 0;
+  color: #817a72;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.source-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.source-facts > div {
+  min-height: 124px;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.source-facts .source-production {
+  grid-column: 1 / -1;
+  min-height: 142px;
+}
+
+.source-facts dt {
+  margin-bottom: 30px;
+  color: var(--signal);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.source-facts dd {
+  margin: 0;
+  color: #c2bbb1;
+  font: 15px/1.55 Georgia, "Noto Serif SC", serif;
+}
+
+.source-background {
+  grid-column: 2;
+  padding: 23px 0 0;
+}
+
+.source-background span,
+.source-verification strong {
+  color: var(--signal);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.source-background h4 {
+  margin: 15px 0;
+  font: italic 25px Georgia, "Noto Serif SC", serif;
+}
+
+.source-background p {
+  margin: 0;
+  color: #aaa299;
+  font: 15px/1.85 Georgia, "Noto Serif SC", serif;
+}
+
+.source-verification {
+  grid-column: 3;
+  grid-row: 2;
+  align-self: start;
+  padding: 20px;
+  border: 1px solid var(--line);
+}
+
+.source-verification p {
+  margin: 12px 0 18px;
+  color: #8f887f;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.source-verification nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.source-verification a {
+  color: var(--paper);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-bottom: 1px solid #4d4a44;
+}
+
 .detail-footer {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -1238,7 +1347,8 @@ img {
 
   .detail-hero,
   .story-section,
-  .reuse-section {
+  .reuse-section,
+  .source-file {
     grid-template-columns: 1fr;
   }
 
@@ -1260,6 +1370,12 @@ img {
 
   .keyframe-grid {
     grid-template-columns: 1fr;
+  }
+
+  .source-background,
+  .source-verification {
+    grid-column: auto;
+    grid-row: auto;
   }
 }
 
@@ -1298,6 +1414,14 @@ img {
   .beat-grid,
   .language-grid {
     grid-template-columns: 1fr;
+  }
+
+  .source-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .source-facts .source-production {
+    grid-column: auto;
   }
 
   .split-heading {

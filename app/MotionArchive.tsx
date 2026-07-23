@@ -20,6 +20,21 @@ type Keyframe = {
   url: string;
 };
 
+type SourceRef = {
+  label: string;
+  url: string;
+};
+
+type OriginalInfo = {
+  brand: string;
+  year: string;
+  projectType: string;
+  production: string;
+  background: string;
+  verification: string;
+  sources: SourceRef[];
+};
+
 type CaseStudy = {
   order: number;
   slug: string;
@@ -48,6 +63,7 @@ type CaseStudy = {
   source: string;
   reference: string;
   credit: string;
+  originalInfo: OriginalInfo;
   sheet: string;
 };
 
@@ -274,6 +290,55 @@ function DetailOverlay({
           <aside>
             <strong>使用边界</strong>
             <p>{record.limits}</p>
+          </aside>
+        </section>
+
+        <section className="source-file section-rule">
+          <div className="source-file-heading">
+            <p className="section-kicker">06 / ORIGINAL FILM FILE</p>
+            <h3>原片档案</h3>
+            <p>
+              品牌归属、制作团队与项目出发点。公开资料不足的项目已明确标注，不作推测性归因。
+            </p>
+          </div>
+          <dl className="source-facts">
+            <div>
+              <dt>品牌 / 项目对象</dt>
+              <dd>{record.originalInfo.brand}</dd>
+            </div>
+            <div>
+              <dt>年份</dt>
+              <dd>{record.originalInfo.year}</dd>
+            </div>
+            <div>
+              <dt>项目性质</dt>
+              <dd>{record.originalInfo.projectType}</dd>
+            </div>
+            <div className="source-production">
+              <dt>制作方 / 主要署名</dt>
+              <dd>{record.originalInfo.production}</dd>
+            </div>
+          </dl>
+          <article className="source-background">
+            <span>BACKGROUND / BRIEF</span>
+            <h4>故事的背景与出发点</h4>
+            <p>{record.originalInfo.background}</p>
+          </article>
+          <aside className="source-verification">
+            <strong>资料边界</strong>
+            <p>{record.originalInfo.verification}</p>
+            <nav aria-label="原片档案资料来源">
+              {record.originalInfo.sources.map((source) => (
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={source.url}
+                >
+                  {source.label} ↗
+                </a>
+              ))}
+            </nav>
           </aside>
         </section>
 
