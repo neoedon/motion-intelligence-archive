@@ -368,7 +368,7 @@ export function MotionArchive() {
   const [detailRecord, setDetailRecord] = useState<CaseStudy | null>(null);
 
   useEffect(() => {
-    fetch("/site-data.json")
+    fetch("/site-data-20260723-v2.json")
       .then((response) => response.json())
       .then((payload: ArchiveData) => setData(payload));
   }, []);
