@@ -146,8 +146,33 @@ img {
   color: var(--signal);
 }
 
-.topbar time {
-  justify-self: start;
+.date-switcher {
+  display: flex;
+  min-width: 0;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.date-switcher::-webkit-scrollbar {
+  display: none;
+}
+
+.date-switcher button {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: #979188;
+  font: 9px Consolas, monospace;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.date-switcher button:hover,
+.date-switcher button.active {
+  border-color: var(--signal);
+  color: var(--signal);
 }
 
 .topbar p {
@@ -1619,6 +1644,11 @@ img {
     display: none;
   }
 
+  .date-switcher {
+    justify-self: end;
+    max-width: 52vw;
+  }
+
   .main {
     padding: 24px 18px 64px;
   }
@@ -1766,6 +1796,12 @@ img {
 @media (max-width: 520px) {
   .topbar {
     font-size: 8px;
+    grid-template-columns: 1fr;
+  }
+
+  .date-switcher {
+    justify-self: stretch;
+    max-width: none;
   }
 
   .hero-title h1 {

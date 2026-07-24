@@ -74,6 +74,8 @@ type SoundAnalysis = {
 };
 
 type CaseStudy = {
+  archiveId: string;
+  date: string;
   order: number;
   slug: string;
   title: string;
@@ -116,6 +118,18 @@ type ArchiveData = {
   };
   records: CaseStudy[];
   trends: { index: string; title: string; body: string }[];
+};
+
+type SiteArchiveData = {
+  currentDate: string;
+  dates: string[];
+  totals: {
+    films: number;
+    frames: number;
+    shots: number;
+    keyframes: number;
+  };
+  days: Record<string, ArchiveData>;
 };
 
 const FILTERS = [
@@ -622,10 +636,14 @@ function DetailOverlay({
 }
 
 export function MotionArchive() {
-  const data = archiveData as ArchiveData;
+  const archive = archiveData as SiteArchiveData;
+  const [activeDate, setActiveDate] = useState(archive.currentDate);
+  const data = archive.days[activeDate];
   const [filter, setFilter] = useState("ALL");
   const [activeOrder, setActiveOrder] = useState(1);
   const [detailRecord, setDetailRecord] = useState<CaseStudy | null>(null);
+  const editionNumber =
+    archive.dates.length - archive.dates.indexOf(activeDate);
 
   const visibleRecords = useMemo(() => {
     return data.records.filter(
@@ -646,6 +664,12 @@ export function MotionArchive() {
       setActiveOrder(visibleRecords[0].order);
     }
   }, [activeOrder, visibleRecords]);
+
+  useEffect(() => {
+    setFilter("ALL");
+    setActiveOrder(data.records[0]?.order ?? 1);
+    setDetailRecord(null);
+  }, [activeDate, data.records]);
 
   if (!activeRecord) {
     return (
@@ -669,8 +693,22 @@ export function MotionArchive() {
         </aside>
 
         <header className="topbar">
-          <span>DAILY FIELD NOTES № 001</span>
-          <time>{data.date.replaceAll("-", " — ")}</time>
+          <span>
+            DAILY FIELD NOTES № {String(editionNumber).padStart(3, "0")}
+          </span>
+          <nav className="date-switcher" aria-label="选择归档日期">
+            {archive.dates.map((date) => (
+              <button
+                type="button"
+                key={date}
+                className={activeDate === date ? "active" : ""}
+                aria-pressed={activeDate === date}
+                onClick={() => setActiveDate(date)}
+              >
+                {date}
+              </button>
+            ))}
+          </nav>
           <p>
             DOMESTIC / INTERNATIONAL SELECTION <i /> ARCHIVE READY
           </p>
@@ -710,7 +748,7 @@ export function MotionArchive() {
           </section>
 
           <nav className="filterbar" aria-label="案例筛选">
-            <p>Today&apos;s selected case files</p>
+            <p>{data.date} selected case files</p>
             <div>
               {FILTERS.map(([value, label]) => (
                 <button
@@ -792,8 +830,8 @@ export function MotionArchive() {
 
           <section className="case-index" aria-labelledby="case-index-title">
             <div className="index-heading">
-              <p>ARCHIVE INDEX / 10 CASE FILES</p>
-              <h2 id="case-index-title">今日片单</h2>
+              <p>ARCHIVE INDEX / {data.stats.films} CASE FILES</p>
+              <h2 id="case-index-title">{data.date} 片单</h2>
             </div>
             <div className="case-grid">
               {visibleRecords.map((record) => (
@@ -801,7 +839,7 @@ export function MotionArchive() {
                   className={`case-card ${
                     record.order === activeRecord.order ? "selected" : ""
                   }`}
-                  key={record.order}
+                  key={record.archiveId}
                 >
                   <button
                     type="button"

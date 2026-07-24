@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const base = new URL(`${protocol}://${host}`);
   const title = "Motion Intelligence｜产品动态视频每日拆解";
   const description =
-    "10 条产品动态视频、14,087 帧逐帧扫描、107 张关键画面的可视化研究档案。";
+    "持续更新的产品动态视频逐帧扫描、关键画面、叙事节拍与声音设计研究档案。";
   const socialImage = new URL("/og.png", base).toString();
   return {
     metadataBase: base,
