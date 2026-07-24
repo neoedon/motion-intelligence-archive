@@ -128,6 +128,16 @@ const FILTERS = [
   ["NARRATIVE", "服务故事"],
 ] as const;
 
+const DETAIL_SECTIONS = [
+  { id: "case-story", index: "01", label: "故事传递" },
+  { id: "case-rhythm", index: "02", label: "叙事节奏" },
+  { id: "case-keyframes", index: "03", label: "关键画面" },
+  { id: "case-language", index: "04", label: "表达语言" },
+  { id: "case-methods", index: "05", label: "复用方法" },
+  { id: "case-sound", index: "06", label: "音乐声音" },
+  { id: "case-original", index: "07", label: "原片档案" },
+] as const;
+
 function timecode(seconds: number) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -173,6 +183,8 @@ function DetailOverlay({
   record: CaseStudy;
   onClose: () => void;
 }) {
+  const [activeSection, setActiveSection] = useState("case-story");
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -184,6 +196,34 @@ function DetailOverlay({
       document.body.classList.remove("detail-open");
     };
   }, [onClose]);
+
+  useEffect(() => {
+    setActiveSection("case-story");
+    const sections = DETAIL_SECTIONS.map(({ id }) =>
+      document.getElementById(id),
+    ).filter((section): section is HTMLElement => Boolean(section));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (left, right) =>
+              Math.abs(left.boundingClientRect.top - 116) -
+              Math.abs(right.boundingClientRect.top - 116),
+          );
+        if (visible[0]?.target.id) setActiveSection(visible[0].target.id);
+      },
+      {
+        root: null,
+        rootMargin: "-112px 0px -68% 0px",
+        threshold: 0,
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [record.order]);
 
   return (
     <div className="detail-backdrop" role="presentation" onMouseDown={onClose}>
@@ -205,6 +245,28 @@ function DetailOverlay({
           </button>
         </header>
 
+        <nav className="detail-nav" aria-label="案例分段目录">
+          {DETAIL_SECTIONS.map((section) => (
+            <a
+              href={`#${section.id}`}
+              className={activeSection === section.id ? "active" : ""}
+              aria-current={activeSection === section.id ? "location" : undefined}
+              key={section.id}
+              onClick={(event) => {
+                event.preventDefault();
+                setActiveSection(section.id);
+                document.getElementById(section.id)?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+            >
+              <span>{section.index}</span>
+              {section.label}
+            </a>
+          ))}
+        </nav>
+
         <div className="detail-hero">
           <div className="detail-title">
             <p>{record.kindLabel} / DAILY CASE FILE</p>
@@ -224,7 +286,10 @@ function DetailOverlay({
           />
         </div>
 
-        <section className="story-section section-rule">
+        <section
+          className="story-section section-rule detail-anchor"
+          id="case-story"
+        >
           <p className="section-kicker">01 / STORY TRANSMISSION</p>
           <div>
             <h3>整条片子的故事传递</h3>
@@ -232,7 +297,10 @@ function DetailOverlay({
           </div>
         </section>
 
-        <section className="beats section-rule">
+        <section
+          className="beats section-rule detail-anchor"
+          id="case-rhythm"
+        >
           <div className="section-heading">
             <p className="section-kicker">02 / NARRATIVE RHYTHM</p>
             <h3>镜头与叙事节拍</h3>
@@ -254,7 +322,10 @@ function DetailOverlay({
           </div>
         </section>
 
-        <section className="keyframe-section section-rule">
+        <section
+          className="keyframe-section section-rule detail-anchor"
+          id="case-keyframes"
+        >
           <div className="section-heading split-heading">
             <div>
               <p className="section-kicker">03 / KEYFRAME READING</p>
@@ -298,7 +369,10 @@ function DetailOverlay({
           </div>
         </section>
 
-        <section className="language-section section-rule">
+        <section
+          className="language-section section-rule detail-anchor"
+          id="case-language"
+        >
           <div className="section-heading">
             <p className="section-kicker">04 / EXPRESSION SYSTEM</p>
             <h3>表达语言</h3>
@@ -320,7 +394,10 @@ function DetailOverlay({
           </div>
         </section>
 
-        <section className="reuse-section section-rule">
+        <section
+          className="reuse-section section-rule detail-anchor"
+          id="case-methods"
+        >
           <div>
             <p className="section-kicker">05 / EDITOR&apos;S NOTES</p>
             <h3>可复用的方法</h3>
@@ -336,7 +413,10 @@ function DetailOverlay({
           </aside>
         </section>
 
-        <section className="sound-section section-rule">
+        <section
+          className="sound-section section-rule detail-anchor"
+          id="case-sound"
+        >
           <div className="sound-heading">
             <div>
               <p className="section-kicker">06 / MUSIC &amp; SOUND</p>
@@ -470,7 +550,10 @@ function DetailOverlay({
           </aside>
         </section>
 
-        <section className="source-file section-rule">
+        <section
+          className="source-file section-rule detail-anchor"
+          id="case-original"
+        >
           <div className="source-file-heading">
             <p className="section-kicker">07 / ORIGINAL FILM FILE</p>
             <h3>原片档案</h3>
