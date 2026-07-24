@@ -686,10 +686,19 @@ img {
   inset: 0;
   z-index: 100;
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   padding: 22px;
   background: rgba(3, 3, 3, 0.83);
   backdrop-filter: blur(12px);
   animation: fade-in 180ms ease both;
+}
+
+.detail-backdrop::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .detail {
@@ -752,9 +761,10 @@ img {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   min-height: 48px;
+  overflow: hidden;
+  touch-action: pan-y;
   border-bottom: 1px solid var(--line);
-  background: rgba(17, 16, 15, 0.96);
-  backdrop-filter: blur(14px);
+  background: #11100f;
 }
 
 .detail-nav a {
@@ -1688,16 +1698,16 @@ img {
   }
 
   .detail-nav {
-    display: flex;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-    scrollbar-color: #4c4741 #171614;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: hidden;
   }
 
   .detail-nav a {
-    min-width: 116px;
-    flex: 0 0 auto;
+    min-width: 0;
+    padding-inline: 5px;
+    gap: 5px;
+    font-size: 10px;
   }
 
   .detail-hero,
@@ -1835,6 +1845,15 @@ img {
 
   .detail-title h2 {
     font-size: 43px;
+  }
+
+  .detail-nav a {
+    padding-inline: 3px;
+    font-size: 9px;
+  }
+
+  .detail-nav a span {
+    display: none;
   }
 }
 
