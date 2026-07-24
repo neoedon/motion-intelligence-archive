@@ -36,6 +36,43 @@ type OriginalInfo = {
   sources: SourceRef[];
 };
 
+type SoundChapter = {
+  range: string;
+  label: string;
+  description: string;
+};
+
+type SoundSyncPoint = {
+  time: number;
+  visual: string;
+  sound: string;
+  effect: string;
+};
+
+type SoundAnalysis = {
+  credit: string;
+  creditStatus: string;
+  profile: string;
+  structure: SoundChapter[];
+  syncPoints: SoundSyncPoint[];
+  design: string;
+  mix: string;
+  reusable: string[];
+  boundary: string;
+  metrics: {
+    codec: string;
+    sampleRate: number;
+    channels: number;
+    channelLayout: string;
+    bpm: number;
+    bpmConfidence: number;
+    integratedLufs: number;
+    loudnessRangeLu: number;
+    truePeakDbfs: number;
+    energySpreadDb: number;
+  };
+};
+
 type CaseStudy = {
   order: number;
   slug: string;
@@ -65,6 +102,7 @@ type CaseStudy = {
   reference: string;
   credit: string;
   originalInfo: OriginalInfo;
+  soundAnalysis: SoundAnalysis;
   sheet: string;
 };
 
@@ -104,6 +142,10 @@ function shortDuration(seconds: number) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.round(seconds % 60);
   return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
+
+function signed(value: number) {
+  return value > 0 ? `+${value.toFixed(1)}` : value.toFixed(1);
 }
 
 function Stat({
@@ -294,9 +336,143 @@ function DetailOverlay({
           </aside>
         </section>
 
+        <section className="sound-section section-rule">
+          <div className="sound-heading">
+            <div>
+              <p className="section-kicker">06 / MUSIC &amp; SOUND</p>
+              <h3>音乐与声音设计拆解</h3>
+            </div>
+            <span className="sound-credit-status">
+              {record.soundAnalysis.creditStatus}
+            </span>
+          </div>
+
+          <div className="sound-metrics" aria-label="声音测量指标">
+            <article>
+              <strong>{record.soundAnalysis.metrics.bpm}</strong>
+              <span>BPM / 估算</span>
+              <small>
+                置信度{" "}
+                {Math.round(record.soundAnalysis.metrics.bpmConfidence * 100)}%
+              </small>
+            </article>
+            <article>
+              <strong>{record.soundAnalysis.metrics.integratedLufs}</strong>
+              <span>INTEGRATED LUFS</span>
+              <small>综合响度</small>
+            </article>
+            <article>
+              <strong>{record.soundAnalysis.metrics.loudnessRangeLu}</strong>
+              <span>LRA / LU</span>
+              <small>响度动态范围</small>
+            </article>
+            <article>
+              <strong>
+                {signed(record.soundAnalysis.metrics.truePeakDbfs)}
+              </strong>
+              <span>TRUE PEAK / dBFS</span>
+              <small>平台版本测量</small>
+            </article>
+            <article>
+              <strong>{record.soundAnalysis.metrics.energySpreadDb}</strong>
+              <span>ENERGY SPREAD / dB</span>
+              <small>能量起伏</small>
+            </article>
+            <article>
+              <strong>
+                {record.soundAnalysis.metrics.codec} ·{" "}
+                {record.soundAnalysis.metrics.sampleRate / 1000}k
+              </strong>
+              <span>
+                {record.soundAnalysis.metrics.channelLayout.toUpperCase()}
+              </span>
+              <small>{record.soundAnalysis.metrics.channels} 声道源文件</small>
+            </article>
+          </div>
+
+          <div className="sound-overview">
+            <article>
+              <span>CREDIT / 署名</span>
+              <p>{record.soundAnalysis.credit}</p>
+            </article>
+            <article>
+              <span>SONIC PROFILE / 整体听感</span>
+              <p>{record.soundAnalysis.profile}</p>
+            </article>
+          </div>
+
+          <div className="sound-subheading">
+            <span>STRUCTURE</span>
+            <h4>声音结构与情绪曲线</h4>
+          </div>
+          <div className="sound-chapters">
+            {record.soundAnalysis.structure.map((chapter, index) => (
+              <article key={`${chapter.range}-${chapter.label}`}>
+                <header>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <time>{chapter.range}</time>
+                </header>
+                <h5>{chapter.label}</h5>
+                <p>{chapter.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="sound-subheading">
+            <span>SYNC MAP</span>
+            <h4>关键声画同步点</h4>
+          </div>
+          <div className="sound-sync" role="table" aria-label="关键声画同步点">
+            <div className="sound-sync-head" role="row">
+              <span role="columnheader">时间</span>
+              <span role="columnheader">画面动作</span>
+              <span role="columnheader">声音动作</span>
+              <span role="columnheader">表达作用</span>
+            </div>
+            {record.soundAnalysis.syncPoints.map((point) => (
+              <div className="sound-sync-row" role="row" key={point.time}>
+                <time role="cell">{timecode(point.time)}</time>
+                <p role="cell">{point.visual}</p>
+                <p role="cell">{point.sound}</p>
+                <p role="cell">{point.effect}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="sound-notes">
+            <article>
+              <span>SOUND DESIGN</span>
+              <h4>声音材料与空间</h4>
+              <p>{record.soundAnalysis.design}</p>
+            </article>
+            <article>
+              <span>MIX / MASTER</span>
+              <h4>混音与动态</h4>
+              <p>{record.soundAnalysis.mix}</p>
+            </article>
+          </div>
+
+          <div className="sound-reuse">
+            <div>
+              <span>REUSABLE METHODS</span>
+              <h4>可复用的声音方法</h4>
+            </div>
+            <ol>
+              {record.soundAnalysis.reusable.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          </div>
+
+          <aside className="sound-boundary">
+            <strong>测量与资料边界</strong>
+            <p>{record.soundAnalysis.boundary}</p>
+          </aside>
+        </section>
+
         <section className="source-file section-rule">
           <div className="source-file-heading">
-            <p className="section-kicker">06 / ORIGINAL FILM FILE</p>
+            <p className="section-kicker">07 / ORIGINAL FILM FILE</p>
             <h3>原片档案</h3>
             <p>
               品牌归属、制作团队与项目出发点。公开资料不足的项目已明确标注，不作推测性归因。

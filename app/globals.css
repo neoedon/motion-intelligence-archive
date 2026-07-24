@@ -1050,6 +1050,275 @@ img {
   line-height: 1.65;
 }
 
+.sound-section {
+  padding: 54px clamp(28px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 88% 7%, rgba(141, 255, 181, 0.05), transparent 25%),
+    #11100f;
+}
+
+.sound-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 30px;
+}
+
+.sound-heading h3 {
+  margin: 0;
+  font: italic 36px Georgia, "Noto Serif SC", serif;
+  letter-spacing: -0.04em;
+}
+
+.sound-credit-status {
+  padding: 7px 10px;
+  border: 1px solid #42614b;
+  color: var(--green);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sound-metrics {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.sound-metrics article {
+  min-width: 0;
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.sound-metrics strong {
+  overflow-wrap: anywhere;
+  color: var(--paper);
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.sound-metrics span {
+  margin-top: 12px;
+  color: var(--green);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.08em;
+}
+
+.sound-metrics small {
+  margin-top: 5px;
+  color: #746f68;
+  font-size: 10px;
+}
+
+.sound-overview {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 42px;
+  padding: 34px 0 44px;
+}
+
+.sound-overview article > span,
+.sound-subheading > span,
+.sound-notes article > span,
+.sound-reuse > div > span {
+  color: var(--green);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.11em;
+}
+
+.sound-overview p {
+  margin: 13px 0 0;
+  color: #b4ada4;
+  font: 15px/1.78 Georgia, "Noto Serif SC", serif;
+}
+
+.sound-subheading {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: baseline;
+  gap: 26px;
+  margin: 8px 0 16px;
+}
+
+.sound-subheading h4,
+.sound-notes h4,
+.sound-reuse h4 {
+  margin: 0;
+  font: italic 24px Georgia, "Noto Serif SC", serif;
+}
+
+.sound-chapters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 44px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.sound-chapters article {
+  min-height: 218px;
+  padding: 17px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.sound-chapters header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #777168;
+  font: 8px Consolas, monospace;
+}
+
+.sound-chapters header span {
+  color: var(--green);
+}
+
+.sound-chapters h5 {
+  margin: 47px 0 12px;
+  font: 18px Georgia, "Noto Serif SC", serif;
+}
+
+.sound-chapters p {
+  margin: 0;
+  color: #908980;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.sound-sync {
+  margin-bottom: 44px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.sound-sync-head,
+.sound-sync-row {
+  display: grid;
+  grid-template-columns: 128px 1fr 1fr 1fr;
+}
+
+.sound-sync-head > *,
+.sound-sync-row > * {
+  min-width: 0;
+  margin: 0;
+  padding: 13px 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.sound-sync-head {
+  color: #736d66;
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.sound-sync-row time {
+  color: var(--green);
+  font: 9px Consolas, monospace;
+}
+
+.sound-sync-row p {
+  color: #a39b92;
+  font-size: 12px;
+  line-height: 1.62;
+}
+
+.sound-sync-row p:last-child {
+  color: #c5beb4;
+}
+
+.sound-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.sound-notes article {
+  min-height: 250px;
+  padding: 22px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.sound-notes h4 {
+  margin-top: 48px;
+}
+
+.sound-notes p {
+  margin: 15px 0 0;
+  color: #999188;
+  font: 14px/1.82 Georgia, "Noto Serif SC", serif;
+}
+
+.sound-reuse {
+  display: grid;
+  grid-template-columns: 0.38fr 1fr;
+  gap: 42px;
+  padding: 44px 0 0;
+}
+
+.sound-reuse h4 {
+  margin-top: 13px;
+}
+
+.sound-reuse ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: sound-reuse;
+}
+
+.sound-reuse li {
+  counter-increment: sound-reuse;
+  position: relative;
+  padding: 14px 0 14px 48px;
+  border-top: 1px solid var(--line);
+  color: #b2aaa0;
+  font: 14px/1.7 Georgia, "Noto Serif SC", serif;
+}
+
+.sound-reuse li::before {
+  content: "0" counter(sound-reuse);
+  position: absolute;
+  left: 0;
+  top: 18px;
+  color: var(--green);
+  font: 8px Consolas, monospace;
+}
+
+.sound-boundary {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
+  margin-top: 32px;
+  padding: 18px;
+  border: 1px solid #344039;
+}
+
+.sound-boundary strong {
+  color: var(--green);
+  font: 8px Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.sound-boundary p {
+  margin: 0;
+  color: #878078;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
 .source-file {
   display: grid;
   grid-template-columns: 0.55fr 1.15fr 0.8fr;
@@ -1245,6 +1514,14 @@ img {
   .language-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .sound-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sound-chapters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 820px) {
@@ -1377,6 +1654,25 @@ img {
     grid-column: auto;
     grid-row: auto;
   }
+
+  .sound-overview,
+  .sound-notes,
+  .sound-reuse,
+  .sound-boundary {
+    grid-template-columns: 1fr;
+  }
+
+  .sound-sync-head {
+    display: none;
+  }
+
+  .sound-sync-row {
+    grid-template-columns: 98px 1fr;
+  }
+
+  .sound-sync-row p:last-child {
+    grid-column: 2;
+  }
 }
 
 @media (max-width: 520px) {
@@ -1421,6 +1717,32 @@ img {
   }
 
   .source-facts .source-production {
+    grid-column: auto;
+  }
+
+  .sound-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sound-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sound-chapters {
+    grid-template-columns: 1fr;
+  }
+
+  .sound-subheading {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .sound-sync-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sound-sync-row p:last-child {
     grid-column: auto;
   }
 
