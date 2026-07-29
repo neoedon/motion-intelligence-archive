@@ -33,6 +33,7 @@ test("server-renders the motion archive", async () => {
   const html = await response.text();
   assert.match(html, /Motion Intelligence/i);
   assert.match(html, /产品动态视频每日拆解/);
+  assert.match(html, /2026-07-29/);
   assert.match(html, /2026-07-24/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview/i);
 });
@@ -41,18 +42,19 @@ test("contains cumulative daily data and namespaced media", async () => {
   const raw = await readFile(new URL("../app/site-data.json", import.meta.url), "utf8");
   const data = JSON.parse(raw);
 
-  assert.deepEqual(data.dates, ["2026-07-24", "2026-07-23"]);
-  assert.equal(data.totals.films, 20);
+  assert.deepEqual(data.dates, ["2026-07-29", "2026-07-24", "2026-07-23"]);
+  assert.equal(data.totals.films, 30);
+  assert.equal(data.days["2026-07-29"].records.length, 10);
   assert.equal(data.days["2026-07-24"].records.length, 10);
   assert.equal(data.days["2026-07-23"].records.length, 10);
   assert.match(
-    data.days["2026-07-24"].records[0].sheet,
-    /^\/media\/2026-07-24\/sheets\//,
+    data.days["2026-07-29"].records[0].sheet,
+    /^\/media\/2026-07-29\/sheets\//,
   );
 
   await access(
     new URL(
-      `.${data.days["2026-07-24"].records[0].sheet}`,
+      `.${data.days["2026-07-29"].records[0].sheet}`,
       new URL("public/", siteRoot),
     ),
   );
