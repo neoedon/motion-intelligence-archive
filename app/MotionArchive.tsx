@@ -152,6 +152,11 @@ const DETAIL_SECTIONS = [
   { id: "case-original", index: "07", label: "原片档案" },
 ] as const;
 
+function assetUrl(path: string) {
+  if (!path.startsWith("/")) return path;
+  return `${import.meta.env.BASE_URL}${path.slice(1)}`;
+}
+
 function timecode(seconds: number) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -294,7 +299,7 @@ function DetailOverlay({
             </div>
           </div>
           <img
-            src={record.sheet}
+            src={assetUrl(record.sheet)}
             alt={`${record.title} 关键画面联系表`}
             className="detail-sheet"
           />
@@ -354,7 +359,7 @@ function DetailOverlay({
               <figure className="keyframe" key={frame.index}>
                 <div className="frame-image-wrap">
                   <img
-                    src={frame.url}
+                    src={assetUrl(frame.url)}
                     loading="lazy"
                     alt={`${record.title} ${frame.title}`}
                   />
@@ -777,7 +782,7 @@ export function MotionArchive() {
                 aria-label={`打开 ${activeRecord.title} 完整拆解`}
               >
                 <img
-                  src={activeRecord.sheet}
+                  src={assetUrl(activeRecord.sheet)}
                   alt={`${activeRecord.title} 关键画面联系表`}
                 />
                 <span>
@@ -852,7 +857,7 @@ export function MotionArchive() {
                     aria-label={`聚焦 ${record.title}`}
                   >
                     <img
-                      src={record.sheet}
+                      src={assetUrl(record.sheet)}
                       loading="lazy"
                       alt={`${record.title} 联系表`}
                     />

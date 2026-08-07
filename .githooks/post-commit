@@ -1,0 +1,8 @@
+#!/bin/sh
+
+branch="$(git branch --show-current)"
+
+if [ "$branch" = "main" ] && git remote get-url github >/dev/null 2>&1; then
+  echo "Publishing main to GitHub Pages source repository..."
+  git push github main
+fi
