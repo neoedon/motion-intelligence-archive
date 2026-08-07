@@ -64,11 +64,11 @@ type SoundAnalysis = {
     sampleRate: number;
     channels: number;
     channelLayout: string;
-    bpm: number;
-    bpmConfidence: number;
-    integratedLufs: number;
-    loudnessRangeLu: number;
-    truePeakDbfs: number;
+    bpm: number | null;
+    bpmConfidence: number | null;
+    integratedLufs: number | null;
+    loudnessRangeLu: number | null;
+    truePeakDbfs: number | null;
     energySpreadDb: number;
   };
 };
@@ -443,26 +443,30 @@ function DetailOverlay({
 
           <div className="sound-metrics" aria-label="声音测量指标">
             <article>
-              <strong>{record.soundAnalysis.metrics.bpm}</strong>
+              <strong>{record.soundAnalysis.metrics.bpm ?? "—"}</strong>
               <span>BPM / 估算</span>
               <small>
                 置信度{" "}
-                {Math.round(record.soundAnalysis.metrics.bpmConfidence * 100)}%
+                {record.soundAnalysis.metrics.bpmConfidence == null
+                  ? "不可测"
+                  : `${Math.round(record.soundAnalysis.metrics.bpmConfidence * 100)}%`}
               </small>
             </article>
             <article>
-              <strong>{record.soundAnalysis.metrics.integratedLufs}</strong>
+              <strong>{record.soundAnalysis.metrics.integratedLufs ?? "—"}</strong>
               <span>INTEGRATED LUFS</span>
               <small>综合响度</small>
             </article>
             <article>
-              <strong>{record.soundAnalysis.metrics.loudnessRangeLu}</strong>
+              <strong>{record.soundAnalysis.metrics.loudnessRangeLu ?? "—"}</strong>
               <span>LRA / LU</span>
               <small>响度动态范围</small>
             </article>
             <article>
               <strong>
-                {signed(record.soundAnalysis.metrics.truePeakDbfs)}
+                {record.soundAnalysis.metrics.truePeakDbfs == null
+                  ? "—"
+                  : signed(record.soundAnalysis.metrics.truePeakDbfs)}
               </strong>
               <span>TRUE PEAK / dBFS</span>
               <small>平台版本测量</small>
