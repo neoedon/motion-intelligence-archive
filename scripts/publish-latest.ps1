@@ -21,6 +21,26 @@ foreach ($path in $required) {
     }
 }
 
+Push-Location $SiteRoot
+try {
+    $dirty = & git status --porcelain
+    if ($LASTEXITCODE -ne 0) { throw "Git status failed." }
+    if ($dirty) {
+        throw "Site workspace has uncommitted changes; refusing to overwrite them."
+    }
+
+    & git fetch $Remote main
+    if ($LASTEXITCODE -ne 0) { throw "Git remote fetch failed." }
+
+    & git merge --ff-only "$Remote/main"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Local and remote site history diverged; manual reconciliation is required."
+    }
+}
+finally {
+    Pop-Location
+}
+
 Push-Location $WorkspaceRoot
 try {
     & python $SyncScript --date $Date
