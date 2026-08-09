@@ -154,9 +154,6 @@ const DETAIL_SECTIONS = [
 
 function assetUrl(path: string) {
   if (!path.startsWith("/")) return path;
-  if (path.startsWith("/media/")) {
-    return `https://raw.githubusercontent.com/neoedon/motion-intelligence-archive/site-media/public${path}`;
-  }
   return `${import.meta.env.BASE_URL}${path.slice(1)}`;
 }
 
