@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const siteRoot = new URL("../", import.meta.url);
@@ -60,11 +60,13 @@ test("contains cumulative daily data and namespaced media", async () => {
       data.days[date].records[0].sheet,
       new RegExp(`^/media/(?:${date}/)?sheets/`),
     );
-    await access(
-      new URL(
-        `.${data.days[date].records[0].sheet}`,
-        new URL("public/", siteRoot),
-      ),
-    );
   }
+  const component = await readFile(
+    new URL("../app/MotionArchive.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(
+    component,
+    /raw\.githubusercontent\.com\/neoedon\/motion-intelligence-archive\/site-media\/public/,
+  );
 });
